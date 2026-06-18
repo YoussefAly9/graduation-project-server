@@ -7,6 +7,7 @@ const isDatabaseConnected = () => mongoose.connection.readyState === 1;
 
 export const listProducts = async (req, res, next) => {
   try {
+    return res.json({ data: seedProducts });
     if (!isDatabaseConnected()) {
       return res.json({ data: seedProducts });
     }
