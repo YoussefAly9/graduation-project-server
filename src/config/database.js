@@ -11,7 +11,8 @@ const connectDatabase = async () => {
 
   try {
     await mongoose.connect(MONGODB_URI, {
-      autoIndex: true
+      serverSelectionTimeoutMS: 5000,
+      autoIndex: process.env.NODE_ENV !== 'production'
     });
 
     // eslint-disable-next-line no-console
