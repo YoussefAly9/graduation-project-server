@@ -9,9 +9,14 @@ const connectDatabase = async () => {
     return null;
   }
 
+  if (mongoose.connection.readyState === 1) {
+    return mongoose.connection;
+  }
+
   try {
     await mongoose.connect(MONGODB_URI, {
-      serverSelectionTimeoutMS: 5000,
+      serverSelectionTimeoutMS: 10000,
+      socketTimeoutMS: 45000,
       autoIndex: process.env.NODE_ENV !== 'production'
     });
 
@@ -20,8 +25,8 @@ const connectDatabase = async () => {
     return mongoose.connection;
   } catch (error) {
     // eslint-disable-next-line no-console
-    console.error('MongoDB connection error', error);
-    throw error;
+    console.error('MongoDB connection error', error.message);
+    return null;
   }
 };
 
