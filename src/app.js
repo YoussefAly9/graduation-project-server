@@ -13,7 +13,9 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
-app.use(morgan('dev'));
+if (process.env.NODE_ENV !== 'production') {
+  app.use(morgan('dev'));
+}
 app.get("/", (req, res) => {
   res.json({
     message: "Graduation Project Backend API is running successfully"
